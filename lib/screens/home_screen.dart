@@ -20,9 +20,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
-            },
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen())),
             tooltip: 'Settings',
           )
         ],
@@ -33,7 +31,6 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // The logo is now dynamic, based on the selected theme
               Image.asset(themeProvider.currentTheme.logoAssetPath, height: 100),
               const SizedBox(height: 20),
               Text(
@@ -44,23 +41,21 @@ class HomeScreen extends StatelessWidget {
               _buildGameModeButton(
                 context,
                 'Player vs Player',
-                    () => _navigateToGameScreen(context, GameMode.vsPlayer),
-                Theme.of(context).colorScheme.primary, // X color
+                    () => _showGridSizeDialog(context, GameMode.vsPlayer),
+                Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(height: 20),
               _buildGameModeButton(
                 context,
                 'Player vs AI',
                     () => _showDifficultyDialog(context),
-                Theme.of(context).colorScheme.secondary, // O color
+                Theme.of(context).colorScheme.secondary,
               ),
               const SizedBox(height: 40),
               TextButton.icon(
                 icon: const Icon(Icons.history),
                 label: const Text('Game History'),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const HistoryScreen()));
-                },
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HistoryScreen())),
               )
             ],
           ),
@@ -69,11 +64,37 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToGameScreen(BuildContext context, GameMode mode, {AiDifficulty? difficulty}) {
+  // ... inside HomeScreen class
+
+  void _navigateToGameScreen(BuildContext context, GameMode mode, int size, {AiDifficulty? difficulty}) {
     Navigator.push(
       context,
       MaterialPageRoute(
+        // THE FIX: Ensure there is NO gridSize parameter here.
         builder: (context) => GameScreen(gameMode: mode, aiDifficulty: difficulty),
+      ),
+    );
+  }
+
+// ... rest of the file
+
+  void _showGridSizeDialog(BuildContext context, GameMode mode, {AiDifficulty? difficulty}) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Select Grid Size'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [3, 4, 5].map((size) {
+            return ListTile(
+              title: Text('$size x $size'),
+              onTap: () {
+                Navigator.of(ctx).pop(); // Close grid size dialog
+                _navigateToGameScreen(context, mode, size, difficulty: difficulty);
+              },
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -81,34 +102,20 @@ class HomeScreen extends StatelessWidget {
   void _showDifficultyDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: const Text('Select AI Difficulty'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDifficultyButton(context, 'Simple', AiDifficulty.simple),
-            _buildDifficultyButton(context, 'Medium', AiDifficulty.medium),
-            _buildDifficultyButton(context, 'Hard', AiDifficulty.hard),
-          ],
+          children: AiDifficulty.values.map((diff) {
+            return ListTile(
+              title: Text(diff.name[0].toUpperCase() + diff.name.substring(1)),
+              onTap: () {
+                Navigator.of(ctx).pop(); // Close difficulty dialog
+                _showGridSizeDialog(context, GameMode.vsAI, difficulty: diff);
+              },
+            );
+          }).toList(),
         ),
-      ),
-    );
-  }
-
-  Widget _buildDifficultyButton(BuildContext context, String text, AiDifficulty difficulty) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-          _navigateToGameScreen(context, GameMode.vsAI, difficulty: difficulty);
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(200, 50),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
-        ),
-        child: Text(text),
       ),
     );
   }

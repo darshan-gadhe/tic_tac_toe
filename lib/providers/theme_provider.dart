@@ -7,7 +7,7 @@ class ThemeProvider with ChangeNotifier {
   static final Map<String, AppTheme> _availableThemes = {
     'dark': AppTheme(
       name: 'Dark',
-      logoAssetPath: 'assets/logo_dark.png',
+      logoAssetPath: 'assets/logo.png',
       themeData: ThemeData(
         brightness: Brightness.dark,
         primaryColor: const Color(0xFF1A2A33),
@@ -21,7 +21,7 @@ class ThemeProvider with ChangeNotifier {
     ),
     'light': AppTheme(
       name: 'Light',
-      logoAssetPath: 'assets/logo_light.png',
+      logoAssetPath: 'assets/logo.png',
       themeData: ThemeData(
         brightness: Brightness.light,
         primaryColor: const Color(0xFFE0FBFC),
@@ -35,7 +35,7 @@ class ThemeProvider with ChangeNotifier {
     ),
     'ocean': AppTheme(
       name: 'Ocean',
-      logoAssetPath: 'assets/logo_ocean.png',
+      logoAssetPath: 'assets/logo.png',
       themeData: ThemeData(
         brightness: Brightness.dark,
         primaryColor: const Color(0xFF006064),

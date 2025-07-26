@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.2.2 # For local storage
   intl: ^0.18.1
   audioplayers: ^5.2.0
+  google_mobile_ads: ^6.0.0
 
 dev_dependencies:
   flutter_test:

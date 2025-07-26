@@ -75,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: const Text('Share this App'),
             onTap: () {
               // TODO: Replace with your actual app link from the app store.
-              Share.share('Check out this awesome Tic Tac Toe game! https://play.google.com/store/apps/details?id=your.package.name');
+              Share.share('Check out this awesome Tic Tac Toe game! https://play.google.com/store/apps/details?id=com.itechcoderdev.tictactoe&hl=en');
             },
           ),
 

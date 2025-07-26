@@ -5,6 +5,7 @@ import 'package:advanced_tic_tac_toe/services/sound_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:advanced_tic_tac_toe/providers/profile_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         // This makes SettingsProvider available globally.
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: const MyApp(),
     ),

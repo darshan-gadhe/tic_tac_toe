@@ -44,8 +44,8 @@ android {
     defaultConfig {
         applicationId = "com.itechcoderdev.tictactoe"
         minSdk = 23
-        targetSdk = flutter.targetSdkVersion
-        versionCode = 2
+        targetSdk = 35
+        versionCode = 5
         versionName = flutter.versionName
     }
 
